@@ -111,6 +111,9 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
             override fun onVerificationFailed(e: FirebaseException) {
                 // This callback is invoked in an invalid request for verification is made,
                 // for instance if the the phone number format is not valid.
+                if (::progressDialog.isInitialized) {
+                    progressDialog.dismiss()
+                }
 
                 if (e is FirebaseAuthInvalidCredentialsException) {
                     // Invalid request
@@ -131,6 +134,10 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                 // now need to ask the user to enter the code and then construct a credential
                 // by combining the code with a verification ID.
 
+                //for low level version which doesn't do auto verification save the verification code and the token
+                progressDialog.dismiss()
+                counterTv.isVisible = false
+
                 // Save verification ID and resending token so we can use them later
                 mVerificationId = verificationId
                 mResendToken = token
@@ -144,7 +151,8 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener {
                 if(it.isSuccessful) {
-
+                    startActivity(Intent(this, SignUpActivity::class.java))
+                    finish()
                 } else {
                     notifyUserAndRetry("Your Phone Number verification failed. Try again!")
                 }
@@ -228,7 +236,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
 fun Context.createProgressDialog(message: String, isCancelable: Boolean): ProgressDialog {
     return ProgressDialog(this).apply {
-        setCancelable(false)
+        setCancelable(isCancelable)
         setMessage(message)
         setCanceledOnTouchOutside(false)
     }
