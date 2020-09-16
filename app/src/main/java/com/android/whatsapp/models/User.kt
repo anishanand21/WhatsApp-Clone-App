@@ -1,4 +1,4 @@
-package com.android.whatsapp
+package com.android.whatsapp.models
 
 import com.google.firebase.firestore.FieldValue
 

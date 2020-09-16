@@ -1,4 +1,4 @@
-package com.android.whatsapp
+package com.android.whatsapp.auth
 
 import android.app.ProgressDialog
 import android.content.Context
@@ -11,9 +11,9 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
+import com.android.whatsapp.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException

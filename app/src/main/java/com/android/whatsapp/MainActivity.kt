@@ -2,6 +2,8 @@ package com.android.whatsapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import com.android.whatsapp.adapters.ScreenSliderAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,5 +21,11 @@ class MainActivity : AppCompatActivity() {
                     1 -> tab.text = "PEOPLE"
                 }
             }).attach()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+
+        return super.onCreateOptionsMenu(menu)
     }
 }
