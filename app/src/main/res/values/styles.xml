@@ -11,5 +11,14 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+    
+    <style name="SplashTheme" parent="Theme.App">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">?attr/colorPrimary</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
 
 </resources>
