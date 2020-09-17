@@ -15,8 +15,10 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (auth.currentUser == null) {
+            finishAffinity()
             startActivity(Intent(this, LoginActivity::class.java))
         } else {
+            finishAffinity()
             startActivity(Intent(this, MainActivity::class.java))
         }
     }
