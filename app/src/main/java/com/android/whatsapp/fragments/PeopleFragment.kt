@@ -1,5 +1,6 @@
 package com.android.whatsapp.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.whatsapp.R
-import com.android.whatsapp.UserViewHolder
+import com.android.whatsapp.*
 import com.android.whatsapp.models.User
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter
 import com.firebase.ui.firestore.paging.FirestorePagingOptions
@@ -67,7 +67,13 @@ class PeopleFragment : Fragment() {
 
             override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, model: User) {
                 if(holder is UserViewHolder) {
-                    holder.bind(user = model)
+                    holder.bind(user = model) { name: String, photo: String, id: String ->
+                        val intent = Intent(requireContext(), ChatActivity::class.java)
+                        intent.putExtra(UID,id)
+                        intent.putExtra(NAME,name)
+                        intent.putExtra(IMAGE,photo)
+                        startActivity(intent)
+                    }
                 } else {
                     //Todo - Something
                 }

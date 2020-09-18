@@ -21,4 +21,12 @@
         <item name="android:windowActionBar">false</item>
     </style>
 
+    <style name="ChatShapeApperance">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">22dp</item>
+        <item name="cornerSizeBottomLeft">22dp</item>
+        <item name="cornerSizeBottomRight">8dp</item>
+        <item name="cornerSizeTopRight">22dp</item>
+    </style>
+
 </resources>

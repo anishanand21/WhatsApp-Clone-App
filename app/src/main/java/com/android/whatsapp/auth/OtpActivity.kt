@@ -226,8 +226,8 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                         60, // Timeout duration
                         TimeUnit.SECONDS, // Unit of timeout
                         this, // Activity (for callback binding)
-                        callbacks,
-                        mResendToken) // OnVerificationStateChangedCallbacks
+                        callbacks, // OnVerificationStateChangedCallbacks
+                        mResendToken)
                 }
             }
         }
