@@ -56,7 +56,7 @@ val Date.calendar: Calendar
         return cal
     }
 
-fun Date. formatAsTime(): String {
+fun Date.formatAsTime(): String {
     val hour = calendar.get(HOUR_OF_DAY).toString().padStart(2, '0')
     val minute = calendar.get(MINUTE).toString().padStart(2, '0')
     return "$hour:$minute"
