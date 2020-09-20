@@ -1,8 +1,9 @@
-package com.android.whatsapp
+package com.android.whatsapp.fragments
 
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.android.whatsapp.R
 import com.android.whatsapp.models.User
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_item.view.*
@@ -19,7 +20,7 @@ class UserViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
         Picasso.get()
             .load(user.thumbImage)
             .placeholder(R.drawable.defaultavatar)
-            .error( R.drawable.defaultavatar)
+            .error(R.drawable.defaultavatar)
             .into(userImgView)
 
         setOnClickListener {

@@ -6,14 +6,20 @@ import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.whatsapp.adapters.ChatAdapter
 import com.android.whatsapp.models.*
+import com.android.whatsapp.utils.KeyboardVisibilityUtil
 import com.android.whatsapp.utils.isSameDayAs
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import com.vanniktech.emoji.EmojiManager
+import com.vanniktech.emoji.EmojiPopup
 import com.vanniktech.emoji.google.GoogleEmojiProvider
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 const val UID = "uid"
 const val NAME = "name"
@@ -39,11 +45,15 @@ class ChatActivity : AppCompatActivity() {
     lateinit var currentUser: User
     private val messages = mutableListOf<ChatEvent>()
     lateinit var chatAdapter: ChatAdapter
+    private lateinit var keyboardVisibilityHelper: KeyboardVisibilityUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         EmojiManager.install(GoogleEmojiProvider())
         setContentView(R.layout.activity_chat)
+        keyboardVisibilityHelper = KeyboardVisibilityUtil(rootView) {
+            msgRv.scrollToPosition(messages.size - 1)
+        }
 
         FirebaseFirestore.getInstance().collection("users").document(mCurrentUid).get()
             .addOnSuccessListener {
@@ -57,6 +67,19 @@ class ChatActivity : AppCompatActivity() {
         }
         nameTv.text = name
         Picasso.get().load(image).into(userImgView)
+
+        val emojiPopup = EmojiPopup.Builder.fromRootView(rootView).build(msgEdtv)
+        smileBtn.setOnClickListener {
+            emojiPopup.toggle()
+        }
+        swipeToLoad.setOnRefreshListener {
+            val workerScope = CoroutineScope(Dispatchers.Main)
+            workerScope.launch {
+                delay(2000)
+                swipeToLoad.isRefreshing = false
+            }
+        }
+
         listenToMessages()
         sendBtn.setOnClickListener {
             msgEdtv.text?.let {
@@ -66,6 +89,16 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
         }
+
+        updateReadCount()
+    }
+
+    private fun updateReadCount() {
+        getInbox(mCurrentUid, friendId).child("count").setValue(0)
+    }
+
+    private fun updateHighFive(id: String, status: Boolean) {
+        getMessages(friendId).child(id).updateChildren(mapOf("liked" to status))
     }
 
     private fun listenToMessages() {
